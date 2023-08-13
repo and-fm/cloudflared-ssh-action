@@ -3,7 +3,7 @@ A barebones github action that lets you ssh into a server behind a cloudflare tu
 
 ## Usage
 
-Here is an example deploy.yml file for the action:  
+Here is an example deploy.yaml file for the action:  
 ```yaml
 name: Pull down and compose up
 on: [push]
