@@ -7,5 +7,6 @@ RUN curl -L https://github.com/cloudflare/cloudflared/releases/download/2023.7.3
 RUN chmod +x /usr/bin/cloudflared
 
 COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
