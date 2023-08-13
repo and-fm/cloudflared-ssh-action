@@ -9,10 +9,16 @@ inputs:
     default: "22"
   username:
     description: 'SSH username'
-  password:
-    description: 'SSH password'
+  private_key:
+    description: 'SSH private key'
+  commands:
+    description: 'The commands to run on the remote server'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.host }}
+    - ${{ inputs.port }}
+    - ${{ inputs.username }}
+    - ${{ inputs.private_key }}
+    - ${{ inputs.commands }}
