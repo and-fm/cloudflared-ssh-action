@@ -1,0 +1,18 @@
+name: 'Cloudflared SSH Run Remote Commands'
+description: 'Lets you ssh into a server behind a cloudflare tunnel'
+inputs:
+  host:
+    description: 'SSH host address'
+    required: true
+  port:
+    description: 'SSH port number'
+    default: "22"
+  username:
+    description: 'SSH username'
+  password:
+    description: 'SSH password'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.host }}
