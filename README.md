@@ -20,5 +20,5 @@ jobs:
         username: ${{ secrets.USERNAME }}
         private_key: ${{ secrets.PRIVKEY }}
         port: ${{ secrets.PORT }}
-        commands: cd repo_dir; git pull; /usr/local/bin/docker compose up -d
+        commands: cd repo_dir; git pull; /usr/local/bin/docker compose up --build -d
 ```
