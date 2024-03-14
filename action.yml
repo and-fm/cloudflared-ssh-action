@@ -2,7 +2,7 @@ name: 'Cloudflared SSH Run Remote Commands'
 branding:
   icon: 'terminal'
   color: 'orange'
-description: 'Lets you ssh into a server behind a cloudflare tunnel'
+description: 'Lets you SSH into a server behind a Cloudflare tunnel'
 inputs:
   host:
     description: 'SSH host address'
