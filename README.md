@@ -1,7 +1,7 @@
 # Cloudflared SSH Remote Command Runner
 A GitHub action that lets you SSH into a server behind a Cloudflare tunnel and run a command
 
-# Updates
+## Updates
 This repo is forked from [npgy/cloudflared-ssh-action](https://github.com/npgy/cloudflared-ssh-action)
 - The Dockerfile has been updated to:
 - Pull the 'latest' alpine image tag
