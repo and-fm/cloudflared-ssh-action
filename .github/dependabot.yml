@@ -9,11 +9,11 @@ updates:
     # Workflow files stored in the default location of `.github/workflows`. (You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.)
     directory: "/"
     schedule:
-      # Check for updates to GitHub Actions every weekday
+      # Check for GitHub Actions updates daily
       interval: "daily"
 
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
-      # Check for updates managed by Composer once a week
+      # Check for Docker updates daily
       interval: "daily"
