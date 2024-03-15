@@ -7,7 +7,7 @@ env:
 
 jobs:
   build-and-push-image:
-    name: Build docker image
+    name: Build and push Docker image to GitHub Container Registry
     runs-on: ubuntu-20.04
     permissions:
       contents: read
@@ -24,22 +24,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}
-          
-      - name: Build and push Docker image
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
-          labels: ${{ steps.meta.outputs.labels }}
 
   scan-image:
-    name: Run vulnerability scanner
+    name: Run Trivy vulnerability scanner on Docker image
     needs: build-and-push-image
     runs-on: ubuntu-20.04
     steps:
@@ -55,6 +48,9 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
