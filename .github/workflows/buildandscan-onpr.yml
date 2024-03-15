@@ -1,8 +1,5 @@
 name: Build and scan container
 on:
-  push:
-    branches:
-      - main
   pull_request:
 
 env:
@@ -44,6 +41,7 @@ jobs:
 
   scan-image:
     name: Run vulnerability scanner
+    needs: build-and-push-image
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
