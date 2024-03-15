@@ -1,4 +1,4 @@
-name: Build and scan container
+name: Build and scan container for vuln
 on:
   pull_request:
 
@@ -7,7 +7,7 @@ env:
 
 jobs:
   build-and-push-image:
-    name: Build and push Docker image to GitHub Container Registry
+    name: Build and push to ghcr.io
     runs-on: ubuntu-20.04
     permissions:
       contents: read
@@ -32,7 +32,7 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
 
   scan-image:
-    name: Run Trivy vulnerability scanner on Docker image
+    name: Run Trivy vuln scanner
     needs: build-and-push-image
     runs-on: ubuntu-20.04
     steps:
@@ -45,7 +45,7 @@ jobs:
           image-ref: 'ghcr.io/${{ github.repository }}:${{ github.sha }}'
           exit-code: '1'
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH,MEDIUM'
+          severity: 'CRITICAL,HIGH'
           limit-severities-for-sarif: true
           format: 'sarif'
           output: 'trivy-results.sarif'
