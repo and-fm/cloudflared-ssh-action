@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: connect to remote server
-      uses: nathanjnorris/cloudflared-ssh-action@v1.0
+      uses: nathanjnorris/cloudflared-ssh-action@latest
       with:
         host: ${{ vars.HOST }}
         username: ${{ secrets.USERNAME }}
