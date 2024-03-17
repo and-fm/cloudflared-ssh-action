@@ -1,4 +1,4 @@
-name: 'Cloudflared SSH Run Remote Commands'
+name: 'Cloudflared Remote Server SSH Commands'
 branding:
   icon: 'terminal'
   color: 'orange'
