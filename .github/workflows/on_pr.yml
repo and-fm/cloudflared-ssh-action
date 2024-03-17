@@ -8,7 +8,7 @@ env:
 
 jobs:
   build-and-push-image:
-    name: Build and push to ghcr.io
+    name: Build and push to GitHub Packages
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,7 +30,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }}
 
   scan-image:
     name: Run Trivy scanner
@@ -43,7 +43,7 @@ jobs:
       - name: Run scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'ghcr.io/${{ github.repository }}:${{ github.sha }}'
+          image-ref: '${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }}'
           exit-code: '1'
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
@@ -70,5 +70,5 @@ jobs:
         with: 
           package-name: ${{ env.IMAGE_NAME }}
           package-type: 'container'
-          min-versions-to-keep: 2
+          min-versions-to-keep: 5
           delete-only-pre-release-versions: "true"
