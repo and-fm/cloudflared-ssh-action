@@ -8,17 +8,25 @@ The Dockerfile has been updated to:
 - Pull the 'latest' alpine image tag
 - Download the latest Cloudflare Tunnel (cloudflared) binary 
 
-The GitHub Actions in this repo also uses the [Trivy scanner](https://github.com/aquasecurity/trivy) to check the 
+### PRs
+Branch protection rules require a PR before code can be merged to main. \
+The PR workflow in this repo also uses the [Trivy scanner](https://github.com/aquasecurity/trivy) to check the iamge for vulnerabilities. \
+If there's a Critical or High CVE found in the image, the PR workflow will fail. \
+Daily, dependabot will check upstream base Apline Linux image or Github Actions have been updated, and raise PRs. \
+A successful merge into main will update the 'latest' tagged image uploaded to GitHub Packages.
+
 ## Usage
 
 Here is an example deploy.yaml file for the action:  
 ```yaml
-name: Pull down and compose up
-on: [push]
+name: SSH on cloudflared remote server
+on:
+  pull_request:
+    types:
+      - closed
 jobs:
-
   deploy:
-    name: Deploy
+    name: Run SSH command
     runs-on: ubuntu-latest
     steps:
     - name: connect to remote server
