@@ -2,14 +2,14 @@ name: "Automatic release"
 on:
   push:
     branches:
-      - "main"
+      - main
 
 jobs:
   pre-release:
     name: "Release"
     runs-on: "ubuntu-latest"
     steps:
-      - name: Rlease latest build
+      - name: Release latest build
         run: |
           echo "done!"
       - uses: "marvinpinto/action-automatic-releases@latest"
