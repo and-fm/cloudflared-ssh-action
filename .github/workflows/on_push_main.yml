@@ -10,6 +10,8 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Rlease latest build
+        run: |
+        echo "done!"
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
