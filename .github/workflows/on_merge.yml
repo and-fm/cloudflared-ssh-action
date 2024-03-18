@@ -2,6 +2,9 @@ on:
   pull_request:
     types:
       - closed
+    branches:
+      - 'main'
+    
 
 env:
   REGISTRY: ghcr.io
@@ -28,3 +31,13 @@ jobs:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest
+          
+      - name: Release latest build
+        run: |
+          echo "done!"
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Latest build"
