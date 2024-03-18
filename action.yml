@@ -16,6 +16,10 @@ inputs:
     description: 'SSH private key'
   commands:
     description: 'The commands to run on the remote server'
+  service_token_id:
+    description: 'The Client ID of the Cloudflare service token'
+  service_token_id:
+    description: 'The Client Secret of the Cloudflare service token'
 runs:
   using: 'docker'
   image: 'Dockerfile'
