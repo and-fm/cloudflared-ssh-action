@@ -27,7 +27,8 @@ runs:
     - ${{ inputs.host }}
     - ${{ inputs.port }}
     - ${{ inputs.username }}
-    - ${{ inputs.private_key }}
+    - ${{ inputs.private_key_filename }}
+    - ${{ inputs.private_key_value }}
     - ${{ inputs.commands }}
     - ${{ inputs.service_token_id }}
     - ${{ inputs.service_token_secret }}
