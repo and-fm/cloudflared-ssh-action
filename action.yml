@@ -25,3 +25,5 @@ runs:
     - ${{ inputs.username }}
     - ${{ inputs.private_key }}
     - ${{ inputs.commands }}
+    - ${{ inputs.service_token_id }}
+    - ${{ inputs.service_token_secret }}
