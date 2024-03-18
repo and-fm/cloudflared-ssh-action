@@ -18,7 +18,7 @@ inputs:
     description: 'The commands to run on the remote server'
   service_token_id:
     description: 'The Client ID of the Cloudflare service token'
-  service_token_id:
+  service_token_secret:
     description: 'The Client Secret of the Cloudflare service token'
 runs:
   using: 'docker'
