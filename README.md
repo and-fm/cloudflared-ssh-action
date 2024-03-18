@@ -29,12 +29,14 @@ jobs:
     name: Run SSH command
     runs-on: ubuntu-latest
     steps:
-    - name: connect to remote server
+    - name: Connect to remote server, run command
       uses: nathanjnorris/cloudflared-ssh-action@latest
       with:
-        host: ${{ vars.HOST }}
-        username: ${{ secrets.USERNAME }}
-        private_key: ${{ secrets.PRIVKEY }}
-        port: ${{ secrets.PORT }}
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        service_token_id: ${{ secrets.SERVICE_TOKEN_ID }}
+        service_token_secret: ${{ secrets.SERVICE_TOKEN_SECRET }}
         commands: cd repo_dir; git pull; /usr/local/bin/docker compose up --build -d
 ```
