@@ -72,3 +72,15 @@ jobs:
           package-type: 'container'
           min-versions-to-keep: 5
           delete-only-pre-release-versions: "true"
+  
+  dependency-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Dependency review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
