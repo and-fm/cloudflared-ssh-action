@@ -34,8 +34,8 @@ jobs:
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
-        private_key_filename: ${{ secrets.SSH_PRIVATE_KEY }}
-        private_key_value: ${{ secrets.SSH_PRIVATE_KEY }}
+        private_key_filename: ${{ secrets.SSH_PRIVATE_KEY_FILENAME }}
+        private_key_value: ${{ secrets.SSH_PRIVATE_KEY_VALUE }}
         port: ${{ secrets.SSH_PORT }}
         commands: mkdir hello-world -v
         service_token_id: ${{ secrets.SERVICE_TOKEN_ID }}
