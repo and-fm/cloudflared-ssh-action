@@ -9,10 +9,11 @@ The Dockerfile has been updated to:
 - Install the latest Cloudflare Tunnel (cloudflared) binary.
 - Utilise [service tokens](https://developers.cloudflare.com/cloudflare-one/identity/service-tokens/) for authentication.
 
-### PRs
+## Workflows
 Branch protection rules require a PR before code can be merged into _main_. The workflows will:
 - Use the [Trivy scanner](https://github.com/aquasecurity/trivy) to check the image for vulnerabilities. If there's a High or Critical CVEs found in the image, the workflow will fail. \
-- Dependabot will check upstream base Apline Linux image or Github Actions for updates. \
+- Dependabot will check upstream base Apline Linux image or Github Actions for updates.
+  
 A successful merge into _main_ will update the _latest_ release and update the _latest_ tagged container image uploaded to GitHub Packages.
 
 ## Usage
