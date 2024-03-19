@@ -14,7 +14,7 @@ inputs:
     description: 'SSH username'
   private_key_filename:
     description: 'SSH private key filename'
-   private_key_value:
+  private_key_value:
     description: 'SSH private key value'
   commands:
     description: 'The commands to run on the remote server'
