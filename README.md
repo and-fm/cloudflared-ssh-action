@@ -34,9 +34,10 @@ jobs:
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
-        private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        private_key_filename: ${{ secrets.SSH_PRIVATE_KEY_FILENAME }}
+        private_key_value: ${{ secrets.SSH_PRIVATE_KEY_VALUE }}
         port: ${{ secrets.SSH_PORT }}
+        commands: mkdir hello-world -v
         service_token_id: ${{ secrets.SERVICE_TOKEN_ID }}
         service_token_secret: ${{ secrets.SERVICE_TOKEN_SECRET }}
-        commands: cd repo_dir; git pull; /usr/local/bin/docker compose up --build -d
 ```
