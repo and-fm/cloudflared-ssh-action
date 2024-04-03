@@ -10,11 +10,11 @@ env:
   IMAGE_NAME: cloudflared-ssh-action
 
 jobs:
-  name: 'Dependency Review'
   dependency-review:
+    name: 'Dependency Review'
     runs-on: ubuntu-latest
     steps:
-    - name: 'Checkout Repository'
+    - name: 'Checkout code'
       uses: actions/checkout@v4
     - name: Dependency Review
       uses: actions/dependency-review-action@v4
