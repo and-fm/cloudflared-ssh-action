@@ -2,11 +2,25 @@ name: Build and scan container for vulnerabilities
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: cloudflared-ssh-action
 
 jobs:
+  name: 'Dependency Review'
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout Repository'
+      uses: actions/checkout@v4
+    - name: Dependency Review
+      uses: actions/dependency-review-action@v4
+      with:
+        fail-on-severity: high
+        
   build-and-push-image:
     name: Build and push to GitHub Packages
     runs-on: ubuntu-latest
@@ -72,15 +86,3 @@ jobs:
           package-type: 'container'
           min-versions-to-keep: 5
           delete-only-pre-release-versions: "true"
-  
-  dependency-review:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Dependency review
-        uses: actions/dependency-review-action@v4
-        with:
-          fail-on-severity: high
