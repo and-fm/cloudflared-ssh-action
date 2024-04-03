@@ -1,20 +1,20 @@
 name: Build and scan container for vulnerabilities
 on:
   pull_request:
-
-permissions:
-  contents: read
+  
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: cloudflared-ssh-action
 
 jobs:
-  name: 'Dependency Review'
   dependency-review:
+    name: 'Dependency Review'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-    - name: 'Checkout Repository'
+    - name: 'Checkout code'
       uses: actions/checkout@v4
     - name: Dependency Review
       uses: actions/dependency-review-action@v4
@@ -23,6 +23,7 @@ jobs:
         
   build-and-push-image:
     name: Build and push to GitHub Packages
+    needs: dependency-review
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -36,7 +37,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Build and push
@@ -50,6 +51,9 @@ jobs:
     name: Run Trivy scanner
     needs: build-and-push-image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -65,7 +69,7 @@ jobs:
           format: 'sarif'
           output: 'trivy-results.sarif'
         env:
-          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_USERNAME: ${{ github.repository_owner }}
           TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Trivy scan results to GitHub Security tab
@@ -78,6 +82,8 @@ jobs:
     name: Delete old container images
     needs: scan-image
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
       - name: Delete images
         uses: actions/delete-package-versions@v5
