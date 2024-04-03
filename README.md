@@ -20,8 +20,9 @@ Branch protection rules require a PR before code can be merged into _main_. Ther
 A successful merge into _main_ will update the _latest_ release and update the _latest_ tagged container image uploaded to GitHub Packages. 
 
 ## Contributions
-Any help keeping this repo healthy and secure, then automating semantic version releases would be appreciated. 
-In case users need to rollback to older, stable versions if required. 
+Any help keeping this repo healthy and secure would be appreciated! 
+Remaining in my to-do is automating semantic version releases in case users need to rollback to older, stable versions.
+This action is now meeting my project's needs, so I won't be releasing further updates unless required. 
 
 ## Usage
 
