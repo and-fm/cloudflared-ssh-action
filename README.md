@@ -42,12 +42,12 @@ jobs:
     - name: Connect and run command on remote server
       uses: nathanjnorris/cloudflared-ssh-action@latest
       with:
-        host: ${{ vars.SSH_HOST }}
-        username: ${{ vars.SSH_USERNAME }}
-        private_key_filename: ${{ vars.SSH_PRIVATE_KEY_FILENAME }}
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        private_key_filename: ${{ secrets.SSH_PRIVATE_KEY_FILENAME }}
         private_key_value: ${{ secrets.SSH_PRIVATE_KEY_VALUE }}
-        port: ${{ vars.SSH_PORT }}
-        service_token_id: ${{ vars.SERVICE_TOKEN_ID }}
+        port: ${{ secrets.SSH_PORT }}
+        service_token_id: ${{ secrets.SERVICE_TOKEN_ID }}
         service_token_secret: ${{ secrets.SERVICE_TOKEN_SECRET }}
         commands: mkdir hello-world -v
 ```
