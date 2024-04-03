@@ -8,7 +8,7 @@ The Dockerfile has been updated to:
 - Pull the _latest_ alpine image tag.
 - Install the latest Cloudflare Tunnel (cloudflared) binary.
 - Utilise [service tokens](https://developers.cloudflare.com/cloudflare-one/identity/service-tokens/) for authentication, for SSH servers secured by [Cloudflare Access policies](https://developers.cloudflare.com/cloudflare-one/policies/access/).
-- Utilize Dependabot to alert if this code depends on a package with a security vulnerability.
+- Utilise Dependabot to alert if this code depends on a package with a security vulnerability.
 
 The updates are intended to 
 
