@@ -3,8 +3,7 @@ on:
     types:
       - closed
     branches:
-      - 'main'
-    
+      - "main"
 
 env:
   REGISTRY: ghcr.io
@@ -14,6 +13,7 @@ jobs:
   if_merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest
-          
+
       - name: Release latest build
         run: |
           echo "done!"
