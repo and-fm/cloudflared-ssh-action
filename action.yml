@@ -1,30 +1,34 @@
-name: 'Cloudflared Remote Server SSH Commands'
+name: "Cloudflared Remote Server SSH Commands"
 branding:
-  icon: 'terminal'
-  color: 'orange'
-description: 'Lets you SSH into a server behind a Cloudflare tunnel'
+  icon: "terminal"
+  color: "orange"
+description: "Lets you SSH into a server behind a Cloudflare tunnel"
 inputs:
   host:
-    description: 'SSH host address'
+    description: "SSH host address"
     required: true
   port:
-    description: 'SSH port number'
+    description: "SSH port number"
     default: "22"
   username:
-    description: 'SSH username'
+    description: "SSH username"
+    required: true
   private_key_filename:
-    description: 'SSH private key filename'
+    description: "SSH private key filename"
+    required: true
   private_key_value:
-    description: 'SSH private key value'
+    description: "SSH private key value"
+    required: true
   commands:
-    description: 'The commands to run on the remote server'
+    description: "The commands to run on the remote server"
+    required: true
   service_token_id:
-    description: 'The Client ID of the Cloudflare service token'
+    description: "The Client ID of the Cloudflare service token"
   service_token_secret:
-    description: 'The Client Secret of the Cloudflare service token'
+    description: "The Client Secret of the Cloudflare service token"
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "docker"
+  image: "Dockerfile"
   args:
     - ${{ inputs.host }}
     - ${{ inputs.port }}
