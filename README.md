@@ -13,7 +13,7 @@ The following inputs can be used as `step.with` keys:
 | `username`             | String |         | `true`   | SSH username                                                            |
 | `private_key_filename` | String |         | `true`   | Name of the private key file (used only in the action runner execution) |
 | `private_key_value`    | String |         | `true`   | The actual SSH private key to authenticate to your server               |
-| `commands         `    | List   |         | `true`   | The list of commands you want to execute on the remote server           |
+| `commands`             | List   |         | `true`   | The list of commands you want to execute on the remote server           |
 | `service_token_id`     | String |         | `false`  | The Cloudflare Zero Trust Service Token ID (optional)                   |
 | `service_token_secret` | String |         | `false`  | The Cloudflare Zero Trust Service Token Secret (optional)               |
 
