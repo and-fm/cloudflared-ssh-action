@@ -17,6 +17,8 @@ The following inputs can be used as `step.with` keys:
 | `service_token_id`     | String |         | `false`  | The Cloudflare Zero Trust Service Token ID (optional)                   |
 | `service_token_secret` | String |         | `false`  | The Cloudflare Zero Trust Service Token Secret (optional)               |
 
+For more info on service tokens, check this documentation: https://developers.cloudflare.com/cloudflare-one/identity/service-tokens/
+
 ## Updates
 
 This repo is forked from [npgy/cloudflared-ssh-action](https://github.com/npgy/cloudflared-ssh-action)
