@@ -2,6 +2,21 @@
 
 A GitHub Action that runs a Docker container, which lets you SSH into a server behind a Cloudflare Tunnel and run a command
 
+## Inputs
+
+The following inputs can be used as `step.with` keys:
+
+| Name                   | Type   | Default | Required | Description                                                             |
+| ---------------------- | ------ | ------- | -------- | ----------------------------------------------------------------------- |
+| `host`                 | String |         | `true`   | Tunnel address of the server you are connecting to                      |
+| `port`                 | int    | `22`    | `true`   | SSH port                                                                |
+| `username`             | String |         | `true`   | SSH username                                                            |
+| `private_key_filename` | String |         | `true`   | Name of the private key file (used only in the action runner execution) |
+| `private_key_value`    | String |         | `true`   | The actual SSH private key to authenticate to your server               |
+| `commands         `    | List   |         | `true`   | The list of commands you want to execute on the remote server           |
+| `service_token_id`     | String |         | `false`  | The Cloudflare Zero Trust Service Token ID (optional)                   |
+| `service_token_secret` | String |         | `false`  | The Cloudflare Zero Trust Service Token Secret (optional)               |
+
 ## Updates
 
 This repo is forked from [npgy/cloudflared-ssh-action](https://github.com/npgy/cloudflared-ssh-action)
