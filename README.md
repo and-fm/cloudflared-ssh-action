@@ -19,19 +19,6 @@ The following inputs can be used as `step.with` keys:
 
 For more info on service tokens, check this documentation: https://developers.cloudflare.com/cloudflare-one/identity/service-tokens/
 
-## Updates
-
-This repo is forked from [npgy/cloudflared-ssh-action](https://github.com/npgy/cloudflared-ssh-action)
-
-The Dockerfile has been updated to:
-
-- Pull the _latest_ alpine image tag.
-- Install the latest Cloudflare Tunnel (cloudflared) binary.
-- Utilise [service tokens](https://developers.cloudflare.com/cloudflare-one/identity/service-tokens/) for authentication, for SSH servers secured by [Cloudflare Access policies](https://developers.cloudflare.com/cloudflare-one/policies/access/).
-- Utilise Dependabot to alert if this code depends on a package with a security vulnerability.
-
-The updates are intended to
-
 ## Workflows
 
 Branch protection rules require a PR before code can be merged into _main_. There are two PR workflows:
@@ -44,8 +31,7 @@ A successful merge into _main_ will update the _latest_ release and update the _
 ## Contributions
 
 Any help keeping this repo healthy and secure would be appreciated! \
-Remaining in my to-do is automating semantic version releases in case users need to rollback to older, stable versions. \
-This action is now meeting my project's needs, so I won't be releasing further updates unless required.
+Remaining in the to-do is automating semantic version releases in case users need to rollback to older, stable versions. \
 
 ## Usage
 
