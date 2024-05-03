@@ -31,7 +31,7 @@ A successful merge into _main_ will update the _latest_ release and update the _
 ## Contributions
 
 Any help keeping this repo healthy and secure would be appreciated! \
-Remaining in the to-do is automating semantic version releases in case users need to rollback to older, stable versions. \
+Remaining in the to-do is automating semantic version releases in case users need to rollback to older, stable versions.
 
 ## Usage
 
