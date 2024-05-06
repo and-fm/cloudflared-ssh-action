@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: cloudflared-ssh-action
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   if_merged:
@@ -17,7 +17,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      - name: Generate a tag from the latest CHANGELOG.md version
+        id: gen-tag
+        run: |
+          echo tag=$(cat CHANGELOG.md | grep -E -m 1 '^##\s(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$' | cut -c 4- | sed "s/^/v/") >> $GITHUB_OUTPUT
+      - name: Push tag to repo
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{steps.gen-tag.outputs.tag}}',
+              sha: context.sha
+            })
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        id: release
+        if: ${{ steps.gen-tag.outputs.tag != '' }}
+        with:
+          tag_name: ${{steps.gen-tag.outputs.tag}}
+          body_path: CHANGELOG.md
+          make_latest: true
       - name: Login to GitHub Packages
         uses: docker/login-action@v3
         with:
