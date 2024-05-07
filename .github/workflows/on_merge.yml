@@ -1,3 +1,5 @@
+name: Automatically tag and release on merge
+
 on:
   pull_request:
     types:
@@ -7,7 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: cloudflared-ssh-action
 
 jobs:
   if_merged:
@@ -17,11 +19,35 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check if there are any changelog updates
+        id: new_version_check
+        run: |
+          git diff --quiet HEAD~1 HEAD CHANGELOG.md || echo "changed=true" >> $GITHUB_OUTPUT
       - name: Generate a tag from the latest CHANGELOG.md version
+        if: steps.new_version_check.outputs.changed == 'true'
         id: gen-tag
         run: |
-          echo tag=$(cat CHANGELOG.md | grep -E -m 1 '^##\s(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$' | cut -c 4- | sed "s/^/v/") >> $GITHUB_OUTPUT
+          cat CHANGELOG.md | grep -E -m 1 '^##\s(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$' | cut -c 4- | sed "s/^/v/" >> tag.txt
+          echo tag=$(cat tag.txt) >> $GITHUB_OUTPUT
+          echo short_tag=$(cat tag.txt | sed "s/\..*//g") >> $GITHUB_OUTPUT
+      - name: Get latest changelog change
+        if: steps.new_version_check.outputs.changed == 'true'
+        id: changelog-latest
+        run: |
+          cat CHANGELOG.md | awk -v n=1 '/##.*/{l++} l>n{exit} l==n' >> change.txt
+      - name: Check for major version tag
+        id: tag-check
+        run: |
+          TAG=${{steps.gen-tag.outputs.short_tag}}
+          if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
+            echo "tag_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "tag_exists=false" >> $GITHUB_OUTPUT
+          fi
       - name: Push tag to repo
+        if: steps.gen-tag.outcome == 'success'
         uses: actions/github-script@v5
         with:
           script: |
@@ -31,15 +57,35 @@ jobs:
               ref: 'refs/tags/${{steps.gen-tag.outputs.tag}}',
               sha: context.sha
             })
+      - name: Push major version tag to repo
+        if: ${{ (steps.gen-tag.outcome == 'success') && (steps.gen-tag.outputs.short_tag != 'v0') }}
+        uses: actions/github-script@v5
+        with:
+          script: |
+            if (${{ steps.tag-check.tag_exists == true }}) {
+              github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'refs/tags/${{steps.gen-tag.outputs.short_tag}}'
+              })
+            }
+
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{steps.gen-tag.outputs.short_tag}}',
+              sha: context.sha
+            })
       - name: Release
         uses: softprops/action-gh-release@v2
         id: release
-        if: ${{ steps.gen-tag.outputs.tag != '' }}
+        if: ${{ (steps.gen-tag.outputs.tag != '') && (steps.new_version_check.outputs.changed == 'true') }}
         with:
           tag_name: ${{steps.gen-tag.outputs.tag}}
-          body_path: CHANGELOG.md
+          body_path: change.txt
           make_latest: true
       - name: Login to GitHub Packages
+        if: steps.release.outcome == 'success'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -47,18 +93,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
+        if: steps.release.outcome == 'success'
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest
-
-      - name: Release latest build
-        run: |
-          echo "done!"
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: false
-          title: "Latest build"
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest, ${{ env.REGISTRY }}/${{ github.repository }}:${{steps.gen-tag.outputs.tag}}, ${{ env.REGISTRY }}/${{ github.repository }}:${{steps.gen-tag.outputs.short_tag}}
