@@ -48,7 +48,7 @@ jobs:
           fi
       - name: Push tag to repo
         if: steps.gen-tag.outcome == 'success'
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           script: |
             github.rest.git.createRef({
@@ -59,7 +59,7 @@ jobs:
             })
       - name: Push major version tag to repo
         if: ${{ (steps.gen-tag.outcome == 'success') && (steps.gen-tag.outputs.short_tag != 'v0') }}
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           script: |
             if (${{ steps.tag-check.tag_exists == true }}) {
