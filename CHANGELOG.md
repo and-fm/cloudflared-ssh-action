@@ -1,3 +1,7 @@
+## 4.0.2
+
+- Upgrade other dependencies
+
 ## 4.0.1
 
 - Upgrade other dependencies
