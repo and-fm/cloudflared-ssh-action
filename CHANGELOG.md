@@ -1,3 +1,7 @@
+## 4.0.1
+
+- Upgrade other dependencies
+
 ## 4.0.0
 
 - Upgrade to node24
