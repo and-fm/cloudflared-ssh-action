@@ -1,3 +1,7 @@
+## 4.0.0
+
+- Upgrade to node24
+
 ## 3.1.2
 
 - Improve auto tagging and releasing
