@@ -18,7 +18,7 @@ jobs:
     permissions: write-all
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Check if there are any changelog updates
@@ -86,7 +86,7 @@ jobs:
           make_latest: true
       - name: Login to GitHub Packages
         if: steps.release.outcome == 'success'
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -94,7 +94,7 @@ jobs:
 
       - name: Build and push
         if: steps.release.outcome == 'success'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: true
